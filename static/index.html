@@ -358,16 +358,10 @@
         async function clearHistory() {
             if (confirm('Are you sure you want to clear the chat history?')) {
                 try {
-                    const response = await fetch('/chat/history', { method: 'DELETE' });
-                    if (response.ok) {
-                        // Clear the chat messages and show welcome message
-                        chatMessages.innerHTML = '<div class="welcome-message">👋 Hello! I\'m your virtual fitness coach. Ask me anything about workouts, nutrition, or fitness goals!</div>';
-                    } else {
-                        throw new Error('Failed to clear history');
-                    }
+                    await fetch('/chat/history', { method: 'DELETE' });
+                    chatMessages.innerHTML = '<div class="welcome-message">👋 Hello! I\'m your virtual fitness coach. Ask me anything about workouts, nutrition, or fitness goals!</div>';
                 } catch (error) {
                     console.error('Error clearing history:', error);
-                    alert('Error clearing chat history. Please try again.');
                 }
             }
         }
@@ -387,48 +381,18 @@
                     
                     // Add historical messages
                     data.history.forEach(msg => {
-                        addHistoryMessage(msg.role, msg.content, msg.timestamp);
+                        addMessage(msg.role, msg.content);
                     });
-                    
-                    scrollToBottom();
                 }
             } catch (error) {
                 console.error('Error loading history:', error);
             }
         }
 
-        function addHistoryMessage(role, content, timestamp) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${role}`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.textContent = role === 'user' ? 'YOU' : '🏋️';
-            
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message-content';
-            messageContent.textContent = content;
-            
-            // Add timestamp if available
-            if (timestamp) {
-                const timeDiv = document.createElement('div');
-                timeDiv.style.fontSize = '0.7rem';
-                timeDiv.style.opacity = '0.6';
-                timeDiv.style.marginTop = '5px';
-                timeDiv.textContent = new Date(timestamp).toLocaleTimeString();
-                messageContent.appendChild(timeDiv);
-            }
-            
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(messageContent);
-            
-            chatMessages.appendChild(messageDiv);
-        }
-
         // Focus input on page load
         window.addEventListener('load', () => {
-            loadHistory();
             messageInput.focus();
+            loadHistory();
         });
 
         // Handle Enter key in input
