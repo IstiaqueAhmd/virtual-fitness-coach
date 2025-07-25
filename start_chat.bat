@@ -1,0 +1,3 @@
+@echo off
+echo Starting Virtual Fitness Coach Chat App...
+python app.py
