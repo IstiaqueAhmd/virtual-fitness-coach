@@ -7,15 +7,11 @@ from typing import List
 from models import ChatMessage, ChatResponse, ChatHistoryResponse, ClearHistoryResponse
 from database import get_database_manager
 from ai_service import get_ai_service
-from health_agent import HealthAgent
 from config import USER_ID, DEFAULT_CHAT_HISTORY_LIMIT, MAX_CHAT_HISTORY_LIMIT
 from utils import sanitize_message
 
 # Create router
 router = APIRouter()
-
-# Initialize health agent
-health_agent = HealthAgent(get_ai_service())
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -45,8 +41,9 @@ async def chat_endpoint(message: ChatMessage):
         # Get recent chat history for context
         recent_messages = await db_manager.get_chat_history(USER_ID, DEFAULT_CHAT_HISTORY_LIMIT)
         
-        # Generate response using health agent
-        ai_response = await health_agent.generate_health_response(sanitized_message, recent_messages)
+        # Generate response using AI service
+        ai_service = get_ai_service()
+        ai_response = await ai_service.generate_fitness_response(recent_messages + [{"role": "user", "content": sanitized_message}])
         
         # Save AI response to MongoDB
         await db_manager.save_message(USER_ID, "assistant", ai_response)

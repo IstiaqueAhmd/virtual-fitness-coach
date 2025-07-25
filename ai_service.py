@@ -19,10 +19,10 @@ class AIService:
         """Create a fitness coach prompt with context."""
         return f"""You are a helpful virtual fitness coach. Provide encouraging, informative, and personalized fitness advice.
         
-Previous conversation:
-{context}
-
-Please respond to the user's latest message in a friendly and supportive manner."""
+        Your previous conversations with the user are as follows:
+        {context}
+        
+        Please respond to the user's latest message in a friendly and supportive manner."""
     
     async def generate_response(self, prompt: str) -> str:
         """Generate AI response using Gemini."""

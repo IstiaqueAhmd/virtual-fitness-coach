@@ -11,7 +11,6 @@ virtual-fitness-coach/
 ├── models.py           # Pydantic models for API requests/responses
 ├── database.py         # MongoDB operations and database management
 ├── ai_service.py       # AI/Gemini integration service
-├── health_agent.py     # Specialized health and fitness logic
 ├── routes.py           # API route handlers
 ├── utils.py            # Utility functions
 ├── requirements.txt    # Python dependencies
@@ -41,11 +40,7 @@ virtual-fitness-coach/
 - Gemini AI integration
 - Prompt engineering
 - Response generation
-
-### `health_agent.py`
-- Specialized fitness and health logic
-- Message intent analysis
-- Context-aware response generation
+- Fitness coach context management
 
 ### `routes.py`
 - FastAPI route definitions
@@ -67,7 +62,7 @@ virtual-fitness-coach/
 - **Modular Architecture**: Clean separation of concerns with dedicated modules
 - **AI-Powered Chat**: Integration with Google's Gemini AI for intelligent responses
 - **Persistent Chat History**: MongoDB storage for conversation continuity
-- **Health-Focused Responses**: Specialized agent for fitness and health advice
+- **Fitness-Focused Responses**: AI service optimized for fitness and health advice
 - **Input Validation**: Pydantic models for request/response validation
 - **Error Handling**: Comprehensive error handling throughout the application
 - **Async Operations**: Fully asynchronous for better performance
